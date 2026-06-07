@@ -1,0 +1,34 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build OCMod ZIP
+        run: |
+          cd extension/iskra_account
+          zip -r ../../iskra_account-${{ github.ref_name }}.ocmod.zip . \
+            -x "tests/*" \
+            -x "docs/*" \
+            -x ".github/*" \
+            -x "composer.json" \
+            -x "README.md" \
+            -x "LICENSE"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: iskra_account-*.ocmod.zip
+          generate_release_notes: true
+          make_latest: true

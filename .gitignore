@@ -1,0 +1,8 @@
+# Iskra Account — gitignore
+# Exclude local dev artifacts only
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log

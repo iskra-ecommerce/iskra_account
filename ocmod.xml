@@ -1,0 +1,8 @@
+<modification>
+    <name>Iskra Account — Modern Registration &amp; Language Manager</name>
+    <code>iskra_account</code>
+    <version>1.0.0</version>
+    <author>Iskra Team</author>
+    <link>https://github.com/iskra-ecommerce/iskra_account</link>
+    <description>Modern registration form with password strength, phone mask, and language preference. No core files modified — works via OpenCart event system.</description>
+</modification>

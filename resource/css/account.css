@@ -1,0 +1,418 @@
+/* Iskra Account — Styles
+   OpenCart 4: Искра — Modern Registration & Language Manager
+   https://github.com/iskra-ecommerce/iskra_account
+*/
+
+:root {
+  --iskra-primary: #0d6efd;
+  --iskra-primary-hover: #0b5ed7;
+  --iskra-success: #198754;
+  --iskra-danger: #dc3545;
+  --iskra-warning: #ffc107;
+  --iskra-bg: #f8f9fa;
+  --iskra-bg-card: #ffffff;
+  --iskra-border: #dee2e6;
+  --iskra-text: #212529;
+  --iskra-text-muted: #6c757d;
+  --iskra-radius: 8px;
+  --iskra-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  --iskra-transition: 0.2s ease;
+}
+
+/* Card */
+.iskra-card {
+  background: var(--iskra-bg-card);
+  border: 1px solid var(--iskra-border);
+  border-radius: var(--iskra-radius);
+  box-shadow: var(--iskra-shadow);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.iskra-card__header {
+  margin-bottom: 1.5rem;
+}
+
+.iskra-card__header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--iskra-text);
+}
+
+.iskra-card__header p {
+  color: var(--iskra-text-muted);
+  font-size: 0.9rem;
+}
+
+/* Fieldset */
+.iskra-fieldset {
+  border: none;
+  padding: 0;
+  margin-bottom: 1.5rem;
+}
+
+.iskra-fieldset__legend {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--iskra-text);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--iskra-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+/* Grid */
+.iskra-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.iskra-grid--2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 576px) {
+  .iskra-grid--2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Field */
+.iskra-field {
+  margin-bottom: 1rem;
+}
+
+.iskra-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: var(--iskra-text);
+}
+
+.iskra-required {
+  color: var(--iskra-danger);
+}
+
+.iskra-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.iskra-input-icon {
+  position: absolute;
+  left: 12px;
+  color: var(--iskra-text-muted);
+  font-size: 0.875rem;
+  z-index: 2;
+}
+
+.iskra-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem 0.5rem 2.25rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--iskra-text);
+  background: var(--iskra-bg-card);
+  border: 1px solid var(--iskra-border);
+  border-radius: 6px;
+  transition: border-color var(--iskra-transition), box-shadow var(--iskra-transition);
+}
+
+.iskra-input:focus {
+  border-color: var(--iskra-primary);
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+  outline: none;
+}
+
+.iskra-input.is-invalid {
+  border-color: var(--iskra-danger);
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15);
+}
+
+.iskra-input.is-valid {
+  border-color: var(--iskra-success);
+  box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.15);
+}
+
+.iskra-input--textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.iskra-select {
+  width: 100%;
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--iskra-text);
+  background: var(--iskra-bg-card);
+  border: 1px solid var(--iskra-border);
+  border-radius: 6px;
+  transition: border-color var(--iskra-transition);
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236c757d' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.iskra-select:focus {
+  border-color: var(--iskra-primary);
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+  outline: none;
+}
+
+/* Toggle password */
+.iskra-toggle-password {
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  color: var(--iskra-text-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  z-index: 2;
+}
+
+.iskra-toggle-password:hover {
+  color: var(--iskra-text);
+}
+
+/* Input status icon */
+.iskra-input-status {
+  position: absolute;
+  right: 40px;
+  font-size: 0.875rem;
+  z-index: 2;
+}
+
+.iskra-status--valid {
+  color: var(--iskra-success);
+}
+
+.iskra-status--invalid {
+  color: var(--iskra-danger);
+}
+
+/* Password strength */
+.iskra-password-strength {
+  margin-top: 0.5rem;
+}
+
+.iskra-password-strength__bar {
+  height: 4px;
+  background: var(--iskra-border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 0.25rem;
+}
+
+.iskra-password-strength__fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width var(--iskra-transition), background-color var(--iskra-transition);
+}
+
+.iskra-password-strength__label {
+  font-size: 0.75rem;
+  color: var(--iskra-text-muted);
+}
+
+/* Error */
+.iskra-error {
+  font-size: 0.8rem;
+  color: var(--iskra-danger);
+  margin-top: 0.25rem;
+  min-height: 1.2em;
+}
+
+.iskra-error.d-block {
+  display: block;
+}
+
+/* Hint */
+.iskra-hint {
+  font-size: 0.75rem;
+  color: var(--iskra-text-muted);
+  margin-top: 0.25rem;
+}
+
+/* Switch */
+.iskra-switch {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.iskra-switch__input {
+  position: relative;
+  width: 2.5rem;
+  height: 1.25rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: var(--iskra-border);
+  border-radius: 0.625rem;
+  transition: background var(--iskra-transition);
+  cursor: pointer;
+}
+
+.iskra-switch__input::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 1rem;
+  height: 1rem;
+  background: white;
+  border-radius: 50%;
+  transition: transform var(--iskra-transition);
+}
+
+.iskra-switch__input:checked {
+  background: var(--iskra-primary);
+}
+
+.iskra-switch__input:checked::before {
+  transform: translateX(1.25rem);
+}
+
+.iskra-switch__label {
+  font-size: 0.9rem;
+  color: var(--iskra-text);
+}
+
+/* Checkbox */
+.iskra-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.iskra-checkbox__input {
+  display: none;
+}
+
+.iskra-checkbox__mark {
+  width: 1.25rem;
+  height: 1.25rem;
+  min-width: 1.25rem;
+  border: 2px solid var(--iskra-border);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--iskra-transition);
+  font-size: 0.7rem;
+  color: transparent;
+}
+
+.iskra-checkbox__input:checked + .iskra-checkbox__mark {
+  background: var(--iskra-primary);
+  border-color: var(--iskra-primary);
+  color: white;
+}
+
+.iskra-checkbox__label {
+  font-size: 0.875rem;
+  color: var(--iskra-text);
+  line-height: 1.4;
+}
+
+.iskra-checkbox__label a {
+  color: var(--iskra-primary);
+  text-decoration: underline;
+}
+
+/* Buttons */
+.iskra-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all var(--iskra-transition);
+  text-decoration: none;
+}
+
+.iskra-btn--primary {
+  background: var(--iskra-primary);
+  color: white;
+  border-color: var(--iskra-primary);
+}
+
+.iskra-btn--primary:hover {
+  background: var(--iskra-primary-hover);
+  border-color: var(--iskra-primary-hover);
+}
+
+.iskra-btn--lg {
+  padding: 0.625rem 1.5rem;
+  font-size: 1rem;
+}
+
+.iskra-btn--outline {
+  background: transparent;
+  color: var(--iskra-text);
+  border-color: var(--iskra-border);
+}
+
+.iskra-btn--outline:hover {
+  border-color: var(--iskra-primary);
+  color: var(--iskra-primary);
+}
+
+.iskra-btn__loader {
+  display: none;
+}
+
+.iskra-btn.loading .iskra-btn__text {
+  display: none;
+}
+
+.iskra-btn.loading .iskra-btn__loader {
+  display: inline-flex;
+}
+
+/* Form actions */
+.iskra-form-actions {
+  margin-top: 1.5rem;
+  text-align: right;
+}
+
+.iskra-fieldset--actions {
+  margin-bottom: 0;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --iskra-bg: #212529;
+    --iskra-bg-card: #2b3035;
+    --iskra-border: #495057;
+    --iskra-text: #f8f9fa;
+    --iskra-text-muted: #adb5bd;
+  }
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .iskra-card {
+    padding: 1rem;
+  }
+}
