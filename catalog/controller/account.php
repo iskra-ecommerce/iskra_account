@@ -1,5 +1,5 @@
 <?php
-namespace Opencart\Catalog\Controller\Extension\Iskra;
+namespace Opencart\Catalog\Controller\Extension\IskraAccount;
 
 class Account extends \Opencart\System\Engine\Controller {
     public function index(): void {
@@ -92,7 +92,7 @@ class Account extends \Opencart\System\Engine\Controller {
         $data['footer'] = $this->load->controller('common/footer');
         $data['header'] = $this->load->controller('common/header');
 
-        $this->response->setOutput($this->load->view('extension/iskra/account_register', $data));
+        $this->response->setOutput($this->load->view('extension/iskra_account/account_register', $data));
     }
 
     public function register(): void {

@@ -1,8 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
 <modification>
-    <name>Iskra Account — Modern Registration &amp; Language Manager</name>
-    <code>iskra_account</code>
+    <name>Iskra Account - Modern Registration</name>
+    <code>iskra_account_template</code>
     <version>1.0.0</version>
     <author>Iskra Team</author>
     <link>https://github.com/iskra-ecommerce/iskra_account</link>
-    <description>Modern registration form with password strength, phone mask, and language preference. No core files modified — works via OpenCart event system.</description>
+    <description>Replace standard registration template with modern Iskra version</description>
+
+    <file path="catalog/view/template/account/register.twig">
+        <operation>
+            <search><![CDATA[{{ header }}]]></search>
+            <add position="replace"><![CDATA[{{ header }}
+{# Iskra Account: Modern Registration Template #}
+<div id="account-register" class="container iskra-page">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+      <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">
+    {{ column_left }}
+    <div id="content" class="col">
+      {{ content_top }}
+      <div class="iskra-card">
+        <div class="iskra-card__header">
+          <h1>{{ heading_title }}</h1>
+          <p>{{ text_account_already }}</p>
+        </div>
+        <form id="form-register" action="{{ register }}" method="post" data-oc-toggle="ajax" class="iskra-form">
+
+          <fieldset class="iskra-fieldset">
+            <legend class="iskra-fieldset__legend">
+              <i class="fa-solid fa-user"></i> {{ text_your_details }}
+            </legend>
+
+            {% if customer_groups|length > 1 %}
+              <div class="iskra-field iskra-field--select">
+                <label class="iskra-label">{{ entry_customer_group }}</label>
+                <select name="customer_group_id" id="input-customer-group" class="iskra-select">
+                  {% for customer_group in customer_groups %}
+                    <option value="{{ customer_group.customer_group_id }}"{% if customer_group.customer_group_id == customer_group_id %} selected{% endif %}>{{ customer_group.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            {% endif %}
+
+            <div class="iskra-grid iskra-grid--2">
+              <div class="iskra-field">
+                <label for="input-firstname" class="iskra-label">{{ entry_firstname }} <span class="iskra-required">*</span></label>
+                <div class="iskra-input-wrap">
+                  <i class="fa-solid fa-user iskra-input-icon"></i>
+                  <input type="text" name="firstname" value="" placeholder="{{ entry_firstname }}" id="input-firstname" class="iskra-input" autocomplete="given-name"/>
+                </div>
+                <div id="error-firstname" class="iskra-error"></div>
+              </div>
+              <div class="iskra-field">
+                <label for="input-lastname" class="iskra-label">{{ entry_lastname }} <span class="iskra-required">*</span></label>
+                <div class="iskra-input-wrap">
+                  <i class="fa-solid fa-user iskra-input-icon"></i>
+                  <input type="text" name="lastname" value="" placeholder="{{ entry_lastname }}" id="input-lastname" class="iskra-input" autocomplete="family-name"/>
+                </div>
+                <div id="error-lastname" class="iskra-error"></div>
+              </div>
+            </div>
+
+            <div class="iskra-field">
+              <label for="input-email" class="iskra-label">{{ entry_email }} <span class="iskra-required">*</span></label>
+              <div class="iskra-input-wrap">
+                <i class="fa-solid fa-envelope iskra-input-icon"></i>
+                <input type="email" name="email" value="" placeholder="your@email.com" id="input-email" class="iskra-input" autocomplete="email"/>
+              </div>
+              <div id="error-email" class="iskra-error"></div>
+            </div>
+
+            <div class="iskra-field">
+              <label for="input-telephone" class="iskra-label">{{ entry_telephone }}</label>
+              <div class="iskra-input-wrap">
+                <i class="fa-solid fa-phone iskra-input-icon"></i>
+                <input type="tel" name="telephone" value="" placeholder="+7 (___) ___-__-__" id="input-telephone" class="iskra-input iskra-input--phone" autocomplete="tel"/>
+              </div>
+              <div id="error-telephone" class="iskra-error"></div>
+            </div>
+          </fieldset>
+
+          {% if iskra_language_select %}
+            <fieldset class="iskra-fieldset">
+              <legend class="iskra-fieldset__legend">
+                <i class="fa-solid fa-globe"></i> {{ text_language_preference }}
+              </legend>
+              <div class="iskra-field">
+                <label class="iskra-label">{{ entry_language }}</label>
+                <div class="iskra-language-select" id="iskra-language-select">
+                  <div class="iskra-language-select__current" tabindex="0" role="button" aria-haspopup="listbox">
+                    {% set selected_lang = iskra_languages|filter(l => l.code == iskra_selected_language)|first %}
+                    {% if selected_lang %}
+                      <img src="{{ selected_lang.image }}" class="iskra-language-select__flag" alt="{{ selected_lang.name }}">
+                      <span class="iskra-language-select__text">{{ selected_lang.name }}</span>
+                    {% endif %}
+                    <i class="fa-solid fa-chevron-down iskra-language-select__arrow"></i>
+                  </div>
+                  <ul class="iskra-language-select__dropdown" role="listbox">
+                    {% for language in iskra_languages %}
+                      <li class="iskra-language-select__option{% if language.code == iskra_selected_language %} iskra-language-select__option--selected{% endif %}"
+                          data-code="{{ language.code }}"
+                          data-image="{{ language.image }}"
+                          data-name="{{ language.name }}"
+                          role="option"
+                          aria-selected="{% if language.code == iskra_selected_language %}true{% else %}false{% endif %}">
+                        <img src="{{ language.image }}" class="iskra-language-select__flag" alt="{{ language.name }}">
+                        <span>{{ language.name }}</span>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                  <input type="hidden" name="language_preference" id="input-language" value="{{ iskra_selected_language }}">
+                </div>
+                <div class="iskra-hint">{{ text_language_hint }}</div>
+              </div>
+            </fieldset>
+          {% endif %}
+
+          <fieldset class="iskra-fieldset">
+            <legend class="iskra-fieldset__legend">
+              <i class="fa-solid fa-lock"></i> {{ text_your_password }}
+            </legend>
+            <div class="iskra-grid iskra-grid--2">
+              <div class="iskra-field">
+                <label for="input-password" class="iskra-label">{{ entry_password }} <span class="iskra-required">*</span></label>
+                <div class="iskra-input-wrap">
+                  <i class="fa-solid fa-lock iskra-input-icon"></i>
+                  <input type="password" name="password" value="" placeholder="{{ entry_password }}" id="input-password" class="iskra-input" autocomplete="new-password" minlength="{{ iskra_password_min_length }}"/>
+                  <button type="button" class="iskra-toggle-password" data-oc-toggle="password-visibility" data-oc-target="#input-password">
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                </div>
+                <div id="error-password" class="iskra-error"></div>
+                {% if iskra_password_strength %}
+                  <div class="iskra-password-strength" id="password-strength">
+                    <div class="iskra-password-strength__bar">
+                      <div class="iskra-password-strength__fill" style="width: 0%"></div>
+                    </div>
+                    <span class="iskra-password-strength__label">{{ text_password_strength }}</span>
+                  </div>
+                {% endif %}
+              </div>
+              <div class="iskra-field">
+                <label for="input-password-confirm" class="iskra-label">{{ entry_password_confirm }} <span class="iskra-required">*</span></label>
+                <div class="iskra-input-wrap">
+                  <i class="fa-solid fa-lock iskra-input-icon"></i>
+                  <input type="password" name="password_confirm" value="" placeholder="{{ entry_password_confirm }}" id="input-password-confirm" class="iskra-input" autocomplete="new-password"/>
+                </div>
+                <div id="error-password-confirm" class="iskra-error"></div>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="iskra-fieldset iskra-fieldset--actions">
+            <div class="iskra-field iskra-field--switch">
+              <label class="iskra-switch">
+                <input type="hidden" name="newsletter" value="0"/>
+                <input type="checkbox" name="newsletter" value="1" class="iskra-switch__input"/>
+                <span class="iskra-switch__slider"></span>
+                <span class="iskra-switch__label">{{ entry_newsletter }}</span>
+              </label>
+            </div>
+            {{ captcha }}
+            <div class="iskra-field iskra-field--agree">
+              <label class="iskra-checkbox">
+                <input type="checkbox" name="agree" value="1" class="iskra-checkbox__input"/>
+                <span class="iskra-checkbox__mark">
+                  <i class="fa-solid fa-check"></i>
+                </span>
+                <span class="iskra-checkbox__label">{{ text_agree }}</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="iskra-form-actions">
+            <button type="submit" class="iskra-btn iskra-btn--primary iskra-btn--lg">
+              <span class="iskra-btn__text">{{ button_continue }}</span>
+              <span class="iskra-btn__loader"><i class="fa-solid fa-circle-notch fa-spin"></i></span>
+            </button>
+          </div>
+        </form>
+      </div>
+      {{ content_bottom }}
+    </div>
+    {{ column_right }}
+  </div>
+</div>
+<script type="text/javascript">
+$('#input-customer-group').on('change', function() {
+    $.ajax({
+        url: 'index.php?route=account/custom_field&customer_group_id=' + this.value + '&language={{ language }}',
+        dataType: 'json',
+        success: function(json) {
+            $('.custom-field').hide();
+            $('.custom-field').removeClass('required');
+            for (i = 0; i < json.length; i++) {
+                custom_field = json[i];
+                $('.custom-field-' + custom_field['custom_field_id']).show();
+                if (custom_field['required']) {
+                    $('.custom-field-' + custom_field['custom_field_id']).addClass('required');
+                }
+            }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+$('#input-customer-group').trigger('change');
+</script>
+{{ footer }}]]></add>
+        </operation>
+    </file>
 </modification>
