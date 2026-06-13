@@ -63,15 +63,65 @@
             input.val(mask);
         });
 
-        // Language preference via AJAX
-        $(document).on('change', '#input-language', function() {
-            var code = $(this).val();
+        // Language select (custom dropdown with flags)
+        $(document).on('click', '.iskra-language-select__current', function(e) {
+            e.preventDefault();
+            var select = $(this).closest('.iskra-language-select');
+            select.toggleClass('open');
+        });
+
+        $(document).on('click', '.iskra-language-select__option', function(e) {
+            e.preventDefault();
+            var option = $(this);
+            var select = option.closest('.iskra-language-select');
+            var code = option.data('code');
+            var name = option.data('name');
+            var image = option.data('image');
+
+            // Update visible display
+            select.find('.iskra-language-select__flag').attr('src', image);
+            select.find('.iskra-language-select__text').text(name);
+            select.find('input[type="hidden"]').val(code);
+
+            // Update selected state
+            select.find('.iskra-language-select__option').removeClass('iskra-language-select__option--selected').attr('aria-selected', 'false');
+            option.addClass('iskra-language-select__option--selected').attr('aria-selected', 'true');
+
+            // Close dropdown
+            select.removeClass('open');
+
+            // Save via AJAX
             $.ajax({
                 url: 'index.php?route=extension/iskra/account.setLanguage&language=' + $('html').attr('lang'),
                 type: 'post',
                 data: { code: code },
                 dataType: 'json'
             });
+        });
+
+        // Close on outside click
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('.iskra-language-select').length) {
+                $('.iskra-language-select').removeClass('open');
+            }
+        });
+
+        // Keyboard navigation
+        $(document).on('keydown', '.iskra-language-select__current', function(e) {
+            var select = $(this).closest('.iskra-language-select');
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                select.toggleClass('open');
+            } else if (e.key === 'Escape') {
+                select.removeClass('open');
+            }
+        });
+
+        $(document).on('keydown', '.iskra-language-select__option', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                $(this).trigger('click');
+            }
         });
 
         // Reset form highlights on success

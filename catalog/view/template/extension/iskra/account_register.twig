@@ -167,14 +167,30 @@
                 <i class="fa-solid fa-globe"></i> {{ text_language_preference }}
               </legend>
               <div class="iskra-field">
-                <label for="input-language" class="iskra-label">{{ entry_language }}</label>
-                <div class="iskra-input-wrap">
-                  <i class="fa-solid fa-globe iskra-input-icon"></i>
-                  <select name="language_preference" id="input-language" class="iskra-select">
+                <label class="iskra-label">{{ entry_language }}</label>
+                <div class="iskra-language-select" id="iskra-language-select">
+                  <div class="iskra-language-select__current" tabindex="0" role="button" aria-haspopup="listbox">
+                    {% set selected_lang = iskra_languages|filter(l => l.code == iskra_selected_language)|first %}
+                    {% if selected_lang %}
+                      <img src="{{ selected_lang.image }}" class="iskra-language-select__flag" alt="{{ selected_lang.name }}">
+                      <span class="iskra-language-select__text">{{ selected_lang.name }}</span>
+                    {% endif %}
+                    <i class="fa-solid fa-chevron-down iskra-language-select__arrow"></i>
+                  </div>
+                  <ul class="iskra-language-select__dropdown" role="listbox">
                     {% for language in iskra_languages %}
-                      <option value="{{ language.code }}"{% if language.code == iskra_selected_language %} selected{% endif %}>{{ language.name }}</option>
+                      <li class="iskra-language-select__option{% if language.code == iskra_selected_language %} iskra-language-select__option--selected{% endif %}"
+                          data-code="{{ language.code }}"
+                          data-image="{{ language.image }}"
+                          data-name="{{ language.name }}"
+                          role="option"
+                          aria-selected="{% if language.code == iskra_selected_language %}true{% else %}false{% endif %}">
+                        <img src="{{ language.image }}" class="iskra-language-select__flag" alt="{{ language.name }}">
+                        <span>{{ language.name }}</span>
+                      </li>
                     {% endfor %}
-                  </select>
+                  </ul>
+                  <input type="hidden" name="language_preference" id="input-language" value="{{ iskra_selected_language }}">
                 </div>
                 <div class="iskra-hint">{{ text_language_hint }}</div>
               </div>

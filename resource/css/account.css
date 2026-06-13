@@ -399,6 +399,108 @@
   margin-bottom: 0;
 }
 
+/* Language Select (custom dropdown with flags) */
+.iskra-language-select {
+  position: relative;
+  width: 100%;
+}
+
+.iskra-language-select__current {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--iskra-bg-card);
+  border: 1px solid var(--iskra-border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color var(--iskra-transition), box-shadow var(--iskra-transition);
+  user-select: none;
+}
+
+.iskra-language-select__current:hover,
+.iskra-language-select__current:focus {
+  border-color: var(--iskra-primary);
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+  outline: none;
+}
+
+.iskra-language-select.open .iskra-language-select__current {
+  border-color: var(--iskra-primary);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.iskra-language-select__flag {
+  width: 20px;
+  height: 14px;
+  object-fit: cover;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.iskra-language-select__text {
+  flex: 1;
+  font-size: 0.9rem;
+  color: var(--iskra-text);
+}
+
+.iskra-language-select__arrow {
+  color: var(--iskra-text-muted);
+  font-size: 0.75rem;
+  transition: transform var(--iskra-transition);
+}
+
+.iskra-language-select.open .iskra-language-select__arrow {
+  transform: rotate(180deg);
+}
+
+.iskra-language-select__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  background: var(--iskra-bg-card);
+  border: 1px solid var(--iskra-primary);
+  border-top: none;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 0.25rem 0;
+  margin: 0;
+  z-index: 100;
+  display: none;
+}
+
+.iskra-language-select.open .iskra-language-select__dropdown {
+  display: block;
+}
+
+.iskra-language-select__option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: background var(--iskra-transition);
+}
+
+.iskra-language-select__option:hover {
+  background: var(--iskra-bg);
+}
+
+.iskra-language-select__option--selected {
+  background: rgba(13, 110, 253, 0.08);
+  font-weight: 500;
+}
+
+.iskra-language-select__option--selected span {
+  color: var(--iskra-primary);
+}
+
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   :root {
