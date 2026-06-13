@@ -1,100 +1,54 @@
 <?php
-namespace Opencart\Admin\Controller\Extension\IskraAccount;
+// Iskra Account - Installation Script
 
-class Install extends \Opencart\System\Engine\Controller {
-    public function index(): void {
-        $this->load->language('extension/iskra/account');
+// Add language_preference column to oc_customer
+$this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` ADD COLUMN IF NOT EXISTS `language_preference` VARCHAR(8) DEFAULT NULL AFTER `language_id`");
 
-        // 1. Add language_preference column to oc_customer
-        $this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` ADD COLUMN `language_preference` VARCHAR(8) DEFAULT NULL AFTER `language_id`");
+// Register as module
+$this->db->query("INSERT INTO `" . DB_PREFIX . "extension` SET `type` = 'module', `code` = 'iskra_account'");
 
-        // 2. Insert default settings
-        $this->load->model('setting/setting');
-        $this->model_setting_setting->editSetting('iskra_account', [
-            'iskra_account_status' => 1,
-            'iskra_account_default_language' => 'ru-ru',
-            'iskra_account_cookie_lifetime' => 90,
-            'iskra_account_password_strength' => 1,
-            'iskra_account_phone_mask' => 1,
-            'iskra_account_language_select' => 0,
-            'iskra_account_password_min_length' => 8
-        ]);
+// Insert default settings
+$this->load->model('setting/setting');
+$this->model_setting_setting->editSetting('iskra_account', [
+    'iskra_account_status' => 1,
+    'iskra_account_default_language' => 'ru-ru',
+    'iskra_account_cookie_lifetime' => 90,
+    'iskra_account_password_strength' => 1,
+    'iskra_account_phone_mask' => 1,
+    'iskra_account_language_select' => 0,
+    'iskra_account_password_min_length' => 8
+]);
 
-        // 3. Register events
-        $this->load->model('setting/event');
-        $events = [
-            [
-                'code' => 'iskra_account_header',
-                'trigger' => 'catalog/view/common/header/before',
-                'action' => 'extension/iskra_account/event/iskra_account.header',
-                'status' => 1,
-                'sort_order' => 1
-            ],
-            [
-                'code' => 'iskra_account_language_save',
-                'trigger' => 'catalog/model/account/customer/addCustomer/after',
-                'action' => 'extension/iskra_account/event/iskra_account.addCustomerAfter',
-                'status' => 1,
-                'sort_order' => 1
-            ]
-        ];
-        foreach ($events as $event) {
-            $this->model_setting_event->addEvent($event);
-        }
+// Register events
+$this->load->model('setting/event');
+$events = [
+    [
+        'code' => 'iskra_account_header',
+        'trigger' => 'catalog/view/common/header/before',
+        'action' => 'extension/iskra_account/event/iskra_account.header',
+        'status' => 1,
+        'sort_order' => 1
+    ],
+    [
+        'code' => 'iskra_account_language_save',
+        'trigger' => 'catalog/model/account/customer/addCustomer/after',
+        'action' => 'extension/iskra_account/event/iskra_account.addCustomerAfter',
+        'status' => 1,
+        'sort_order' => 1
+    ]
+];
+foreach ($events as $event) {
+    $this->model_setting_event->addEvent($event);
+}
 
-        // 4. Backup and copy registration template
-        $original = DIR_TEMPLATE . 'account/register.twig';
-        $backup = DIR_TEMPLATE . 'account/register.twig.bak';
-        $new = DIR_EXTENSION . 'iskra_account/catalog/view/template/account_register.twig';
+// Backup and copy registration template
+$original = DIR_TEMPLATE . 'account/register.twig';
+$backup = DIR_TEMPLATE . 'account/register.twig.bak';
+$new = DIR_EXTENSION . 'iskra_account/catalog/view/template/account_register.twig';
 
-        if (file_exists($original) && !file_exists($backup)) {
-            copy($original, $backup);
-        }
-        if (file_exists($new)) {
-            copy($new, $original);
-        }
-
-        // 5. Register OCMOD modification
-        $ocmodFile = DIR_EXTENSION . 'iskra_account/ocmod.xml';
-        if (file_exists($ocmodFile)) {
-            $xml = simplexml_load_file($ocmodFile);
-            
-            $name = (string)$xml->name;
-            $code = (string)$xml->code;
-            $version = (string)$xml->version;
-            $author = (string)$xml->author;
-            $link = (string)$xml->link;
-            $xmlContent = file_get_contents($ocmodFile);
-            
-            // Get extension_install_id
-            $query = $this->db->query("SELECT `extension_install_id` FROM `" . DB_PREFIX . "extension_install` WHERE `code` = 'iskra_account'");
-            $extension_install_id = $query->num_rows ? $query->row['extension_install_id'] : 0;
-            
-            // Check if modification already exists
-            $query = $this->db->query("SELECT `modification_id` FROM `" . DB_PREFIX . "modification` WHERE `code` = '" . $this->db->escape($code) . "'");
-            
-            if ($query->num_rows) {
-                $this->db->query("UPDATE `" . DB_PREFIX . "modification` SET `name` = '" . $this->db->escape($name) . "', `version` = '" . $this->db->escape($version) . "', `author` = '" . $this->db->escape($author) . "', `link` = '" . $this->db->escape($link) . "', `xml` = '" . $this->db->escape($xmlContent) . "' WHERE `code` = '" . $this->db->escape($code) . "'");
-            } else {
-                $this->db->query("INSERT INTO `" . DB_PREFIX . "modification` SET `extension_install_id` = '" . (int)$extension_install_id . "', `name` = '" . $this->db->escape($name) . "', `code` = '" . $this->db->escape($code) . "', `version` = '" . $this->db->escape($version) . "', `author` = '" . $this->db->escape($author) . "', `link` = '" . $this->db->escape($link) . "', `xml` = '" . $this->db->escape($xmlContent) . "', `status` = '1', `date_added` = NOW()");
-            }
-        }
-    }
-
-    public function uninstall(): void {
-        $this->load->model('setting/event');
-        $this->model_setting_event->deleteEventsByCode('iskra_account');
-
-        $this->load->model('setting/setting');
-        $this->model_setting_setting->deleteSetting('iskra_account');
-
-        // Restore original template
-        $original = DIR_TEMPLATE . 'account/register.twig';
-        $backup = DIR_TEMPLATE . 'account/register.twig.bak';
-
-        if (file_exists($backup)) {
-            copy($backup, $original);
-            unlink($backup);
-        }
-    }
+if (file_exists($original) && !file_exists($backup)) {
+    copy($original, $backup);
+}
+if (file_exists($new)) {
+    copy($new, $original);
 }

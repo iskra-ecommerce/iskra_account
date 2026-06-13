@@ -2,7 +2,7 @@
 <modification>
     <name>Iskra Account</name>
     <code>iskra_account</code>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <author>Iskra Team</author>
     <link>https://github.com/iskra-ecommerce/iskra_account</link>
     <description>Modern registration form with language preference for OpenCart 4</description>

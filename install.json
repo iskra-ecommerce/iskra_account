@@ -1,8 +1,9 @@
 {
   "name": "Iskra Account",
   "code": "iskra_account",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Iskra Team",
   "link": "https://github.com/iskra-ecommerce/iskra_account",
-  "description": "Modern Registration & Language Manager for OpenCart 4"
+  "install": "install.php",
+  "uninstall": "uninstall.php"
 }

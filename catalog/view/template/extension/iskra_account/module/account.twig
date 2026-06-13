@@ -1,0 +1,90 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="float-end">
+        <button type="submit" form="form-iskra-account" data-bs-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa-solid fa-save"></i></button>
+        <a href="{{ back }}" data-bs-toggle="tooltip" title="{{ button_back }}" class="btn btn-light"><i class="fa-solid fa-reply"></i></a>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ol class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+          <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header"><i class="fa-solid fa-pencil"></i> {{ text_edit }}</div>
+      <div class="card-body">
+        <form id="form-iskra-account" action="{{ save }}" method="post" data-oc-toggle="ajax">
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">{{ entry_status }}</label>
+            <div class="col-sm-10">
+              <div class="form-check form-switch form-switch-lg">
+                <input type="hidden" name="iskra_account_status" value="0"/>
+                <input type="checkbox" name="iskra_account_status" value="1" id="input-status" class="form-check-input"{% if iskra_account_status %} checked{% endif %}/>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="input-default-language" class="col-sm-2 col-form-label">{{ entry_default_language }}</label>
+            <div class="col-sm-10">
+              <select name="iskra_account_default_language" id="input-default-language" class="form-select">
+                {% for language in languages %}
+                  <option value="{{ language.code }}"{% if language.code == iskra_account_default_language %} selected{% endif %}>{{ language.name }} ({{ language.code }})</option>
+                {% endfor %}
+              </select>
+              <div class="form-text">{{ help_default_language }}</div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="input-cookie-lifetime" class="col-sm-2 col-form-label">{{ entry_cookie_lifetime }}</label>
+            <div class="col-sm-10">
+              <input type="number" name="iskra_account_cookie_lifetime" value="{{ iskra_account_cookie_lifetime }}" id="input-cookie-lifetime" class="form-control" min="1" max="365"/>
+              <div class="form-text">{{ help_cookie_lifetime }}</div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">{{ entry_password_strength }}</label>
+            <div class="col-sm-10">
+              <div class="form-check form-switch form-switch-lg">
+                <input type="hidden" name="iskra_account_password_strength" value="0"/>
+                <input type="checkbox" name="iskra_account_password_strength" value="1" id="input-password-strength" class="form-check-input"{% if iskra_account_password_strength %} checked{% endif %}/>
+              </div>
+              <div class="form-text">{{ help_password_strength }}</div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">{{ entry_phone_mask }}</label>
+            <div class="col-sm-10">
+              <div class="form-check form-switch form-switch-lg">
+                <input type="hidden" name="iskra_account_phone_mask" value="0"/>
+                <input type="checkbox" name="iskra_account_phone_mask" value="1" id="input-phone-mask" class="form-check-input"{% if iskra_account_phone_mask %} checked{% endif %}/>
+              </div>
+              <div class="form-text">{{ help_phone_mask }}</div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">{{ entry_language_select }}</label>
+            <div class="col-sm-10">
+              <div class="form-check form-switch form-switch-lg">
+                <input type="hidden" name="iskra_account_language_select" value="0"/>
+                <input type="checkbox" name="iskra_account_language_select" value="1" id="input-language-select" class="form-check-input"{% if iskra_account_language_select %} checked{% endif %}/>
+              </div>
+              <div class="form-text">{{ help_language_select }}</div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="input-password-min-length" class="col-sm-2 col-form-label">{{ entry_password_min_length }}</label>
+            <div class="col-sm-10">
+              <input type="number" name="iskra_account_password_min_length" value="{{ iskra_account_password_min_length }}" id="input-password-min-length" class="form-control" min="4" max="20"/>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{ footer }}
