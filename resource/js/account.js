@@ -76,10 +76,10 @@
             var select = option.closest('.iskra-language-select');
             var code = option.data('code');
             var name = option.data('name');
-            var image = option.data('image');
+            var flag = option.data('flag');
 
             // Update visible display
-            select.find('.iskra-language-select__flag').attr('src', image);
+            select.find('.iskra-language-select__flag').text(flag);
             select.find('.iskra-language-select__text').text(name);
             select.find('input[type="hidden"]').val(code);
 
@@ -92,7 +92,7 @@
 
             // Save via AJAX
             $.ajax({
-                url: 'index.php?route=extension/iskra/account.setLanguage&language=' + $('html').attr('lang'),
+                url: 'index.php?route=extension/iskra_account/account.setLanguage&language=' + $('html').attr('lang'),
                 type: 'post',
                 data: { code: code },
                 dataType: 'json'

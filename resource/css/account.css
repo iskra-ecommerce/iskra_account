@@ -432,11 +432,10 @@
 }
 
 .iskra-language-select__flag {
-  width: 20px;
-  height: 14px;
-  object-fit: cover;
-  border-radius: 2px;
-  flex-shrink: 0;
+    font-size: 1.2rem;
+    line-height: 1;
+    flex-shrink: 0;
+    display: inline-block;
 }
 
 .iskra-language-select__text {

@@ -1,18 +1,28 @@
 <?php
-namespace Opencart\Catalog\Event\IskraAccount;
+namespace Opencart\Catalog\Controller\Extension\IskraAccount\Event;
 
-class Account extends \Opencart\System\Engine\Controller {
+class IskraAccount extends \Opencart\System\Engine\Controller {
     public function register(string &$route, array &$args): void {
         if (!$this->config->get('iskra_account_status')) {
             return;
         }
 
-        // Load our own template data
-        $this->load->language('extension/iskra/account');
         $this->load->model('localisation/language');
-
         $languages = $this->model_localisation_language->getLanguages();
         $active = array_filter($languages, fn($l) => $l['status']);
+
+        $flagMap = [
+            'en-gb' => '🇬',
+            'ru-ru' => '🇺',
+            'uk-ua' => '🇺🇦',
+            'kk-kz' => '🇰🇿',
+            'be-by' => '🇧🇾',
+            'ro-ro' => '🇷🇴'
+        ];
+
+        foreach ($active as &$lang) {
+            $lang['flag_emoji'] = $flagMap[$lang['code']] ?? '🌐';
+        }
 
         $cookie_lang = $this->request->cookie['iskra_language'] ?? '';
         $default_lang = $this->config->get('iskra_account_default_language') ?: 'ru-ru';
@@ -23,12 +33,6 @@ class Account extends \Opencart\System\Engine\Controller {
         $args['iskra_phone_mask'] = (bool)$this->config->get('iskra_account_phone_mask');
         $args['iskra_language_select'] = (bool)$this->config->get('iskra_account_language_select');
         $args['iskra_password_min_length'] = (int)($this->config->get('iskra_account_password_min_length') ?: 8);
-        $args['iskra_check_email_url'] = $this->url->link('extension/iskra/account.checkEmail', 'language=' . $this->config->get('config_language'));
-        $args['iskra_language_manager'] = $this->url->link('extension/iskra/account.setLanguage', 'language=' . $this->config->get('config_language'));
-        $args['iskra_account_css'] = 'extension/iskra_account/resource/css/account.css';
-        $args['iskra_account_js'] = 'extension/iskra_account/resource/js/account.js';
-        $args['iskra_password_strength_js'] = 'extension/iskra_account/resource/js/password-strength.js';
-        $args['iskra_phone_mask_js'] = 'extension/iskra_account/resource/js/phone-mask.js';
     }
 
     public function header(string &$route, array &$args): void {

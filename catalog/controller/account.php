@@ -294,6 +294,21 @@ class Account extends \Opencart\System\Engine\Controller {
     private function getLanguages(): array {
         $this->load->model('localisation/language');
         $languages = $this->model_localisation_language->getLanguages();
-        return array_filter($languages, fn($l) => $l['status']);
+        $active = array_filter($languages, fn($l) => $l['status']);
+
+        $flagMap = [
+            'en-gb' => '🇬🇧',
+            'ru-ru' => '🇷🇺',
+            'uk-ua' => '🇦',
+            'kk-kz' => '🇰🇿',
+            'be-by' => '🇧🇾',
+            'ro-ro' => '🇷🇴'
+        ];
+
+        foreach ($active as &$lang) {
+            $lang['flag_emoji'] = $flagMap[$lang['code']] ?? '🌐';
+        }
+
+        return $active;
     }
 }
