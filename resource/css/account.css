@@ -511,6 +511,15 @@
   }
 }
 
+/* Language flag in header */
+.iskra-flag {
+    display: inline-block;
+    font-size: 1rem;
+    line-height: 1;
+    margin-right: 0.25rem;
+    vertical-align: middle;
+}
+
 /* Responsive */
 @media (max-width: 576px) {
   .iskra-card {
