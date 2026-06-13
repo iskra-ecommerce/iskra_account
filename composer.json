@@ -1,6 +1,6 @@
 {
     "name": "iskra-ecommerce/iskra_account",
-    "description": "Modern Registration & Language Manager for OpenCart 4. Password strength meter, phone mask, language preference on registration, admin-configurable default language.",
+    "description": "Modern Registration & Language Manager for OpenCart 4",
     "type": "opencart-extension",
     "keywords": ["opencart", "opencart-4", "registration", "language", "multilingual", "iskra"],
     "homepage": "https://github.com/iskra-ecommerce/iskra_account",

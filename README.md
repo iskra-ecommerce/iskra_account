@@ -1,84 +1,64 @@
-# Iskra Account — Modern Registration & Language Manager
+# Iskra Account — Modern Registration for OpenCart 4
 
-**OpenCart 4 extension.** Modernises the registration page with password strength meter, phone number mask, and per-user language preference. No core file modifications — works entirely through OpenCart's event system.
+Современная форма регистрации и управление языком для OpenCart 4.
 
-## Features
+## Возможности
 
-- **Modern Registration Form** — clean Bootstrap 5.3+ compatible UI with icon inputs
-- **Password Strength Meter** — real-time visual feedback (Weak → Fair → Good → Strong)
-- **Phone Mask** — auto-format phone as +7 (XXX) XXX-XX-XX
-- **Password Confirmation** — real-time match check
-- **Email Availability Check** — AJAX check on input (debounced)
-- **Password Visibility Toggle** — show/hide password button
-- **Language Preference** — user picks a language on registration
-- **Language Manager** — cookie (90 days) for guests, DB `language_preference` for registered users
-- **Admin Configurable Default Language** — set first-visit language in admin panel
-- **Dark Mode Support** — respects `prefers-color-scheme: dark`
-- **No Core Modifications** — uses events only (3 event hooks)
-- **RTL Ready** — inherits OpenCart's `dir` attribute
+-  Современный дизайн формы регистрации
+-  Индикатор надёжности пароля
+-  Маска телефона +7 (XXX) XXX-XX-XX
+- 🌐 Управление языком интерфейса
+- ✅ Без изменений ядра OpenCart
+- 🚀 Установка через админку
 
-## Installation
-
-### Via Composer (recommended)
-```bash
-composer require iskra-ecommerce/iskra_account
-```
-Then run: **Admin → Extensions → Installer → Install**
-
-### Via OCMod ZIP
-1. Download the latest `.ocmod.zip` from [GitHub Releases](https://github.com/iskra-ecommerce/iskra_account/releases)
-2. Go to **Admin → Extensions → Installer → Upload**
-3. Click **Install** next to `Iskra Account`
-
-### Manual
-1. Copy `extension/iskra_account/` into your OpenCart root
-2. Run **Admin → Extensions → Installer** — it should appear in the list
-3. Click **Install**
-
-## Configuration
-
-**Admin → Extensions → Modules → Iskra Account → Edit**
-
-| Setting | Description | Default |
-|---------|-------------|---------|
-| Status | Enable/disable the extension | On |
-| Default Language | First-visit language code | `ru-ru` |
-| Cookie Lifetime | Days to remember guest language | 90 |
-| Password Strength | Show/hide strength meter | On |
-| Phone Mask | Auto-format phone input | On |
-| Language Select | Show language picker on registration | On |
-| Min Password Length | Minimum password characters | 8 |
-
-## User Flow
-
-1. **First visit** → site loads in admin-configured default language
-2. **Guest switches language** → cookie `iskra_language` set for 90 days
-3. **Registration** → user sees a language picker (optional), choice saved to DB
-4. **Logged-in user** → language preference from DB overrides cookie
-5. **Profile edit** → language can be changed permanently
-
-## Requirements
+## Требования
 
 - OpenCart 4.0+
 - PHP 8.1+
-- Bootstrap 5.3+ (OpenCart 4 default theme)
+- MySQL/MariaDB
 
-## Files Modified
+## Установка
 
-**None.** Extension works purely through OpenCart's event system:
-- `catalog/view/account/register/before` — inject template data
-- `catalog/view/common/header/before` — load CSS/JS
-- `catalog/model/account/customer/addCustomer/after` — save language preference
+### Способ 1: Через админку (рекомендуется)
 
-## Changelog
+1. Скачайте `iskra_account-1.0.0.ocmod.zip` из [Releases](https://github.com/iskra-ecommerce/iskra_account/releases)
+2. Зайдите в админку: **Расширения → Установщик**
+3. Нажмите **Загрузить** и выберите ZIP файл
+4. Нажмите **Установить**
+5. Перейдите: **Расширения → Модификации → Обновить**
 
-See [docs/CHANGELOG.md](docs/CHANGELOG.md)
+### Способ 2: Вручную
 
-## License
+1. Скопируйте папку `iskra_account/` в `extension/` вашего OpenCart
+2. Зайдите в админку: **Расширения → Установщик**
+3. Найдите Iskra Account и нажмите **Установить**
 
-GNU General Public License v3.0 or later — [LICENSE](LICENSE)
+## Настройка
 
-## Links
+1. Перейдите: **Расширения → Модули → Iskra Account → Редактировать**
+2. Настройте параметры:
+   - Язык по умолчанию
+   - Время жизни cookie
+   - Индикатор пароля (вкл/выкл)
+   - Маска телефона (вкл/выкл)
 
-- [GitHub](https://github.com/iskra-ecommerce/iskra_account)
-- [OpenCart Marketplace](https://www.opencart.com/index.php?route=marketplace/extension)
+## Удаление
+
+1. Зайдите в админку: **Расширения → Установщик**
+2. Найдите Iskra Account и нажмите **Удалить**
+3. Перейдите: **Расширения → Модификации → Обновить**
+
+## Документация
+
+- [Установка](docs/INSTALL.md)
+- [История изменений](docs/CHANGELOG.md)
+- [Настройка GitHub](docs/GITHUB_SETUP.md)
+
+## Лицензия
+
+GNU General Public License v3.0 — [LICENSE](LICENSE)
+
+## Поддержка
+
+- [Сообщить об ошибке](https://github.com/iskra-ecommerce/iskra_account/issues)
+- [Документация OpenCart](https://docs.opencart.com)

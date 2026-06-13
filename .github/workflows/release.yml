@@ -1,4 +1,4 @@
-name: Build & Release
+name: Build Release
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+      
       - name: Build OCMod ZIP
         run: |
           cd extension/iskra_account
@@ -25,7 +25,7 @@ jobs:
             -x "composer.json" \
             -x "README.md" \
             -x "LICENSE"
-
+      
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
