@@ -1,0 +1,77 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="float-end">
+        <button type="submit" form="form-country-settings" data-bs-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa-solid fa-save"></i></button>
+        <a href="{{ back }}" data-bs-toggle="tooltip" title="{{ button_back }}" class="btn btn-light"><i class="fa-solid fa-reply"></i></a>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ol class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+          <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header"><i class="fa-solid fa-pencil"></i> {{ text_country_settings }}</div>
+      <div class="card-body">
+        <form id="form-country-settings" action="{{ save }}" method="post" data-oc-toggle="ajax">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <td>{{ column_country }}</td>
+                  <td>{{ column_iso_code_2 }}</td>
+                  <td>{{ column_phone_code }}</td>
+                  <td>{{ column_language }}</td>
+                  <td>{{ column_currency }}</td>
+                  <td>{{ column_extra_currencies }}</td>
+                </tr>
+              </thead>
+              <tbody>
+                {% for country in countries %}
+                <tr>
+                  <td>{{ country.name }}</td>
+                  <td>{{ country.iso_code_2 }}</td>
+                  <td><input type="text" name="country[{{ country.country_id }}][phone_code]" value="{{ country.phone_code }}" placeholder="+7" class="form-control" maxlength="10"/></td>
+                  <td>
+                    <select name="country[{{ country.country_id }}][language_code]" class="form-select">
+                      <option value="">---</option>
+                      {% for code, lang in languages %}
+                        <option value="{{ code }}"{% if code == country.language_code %} selected{% endif %}>{{ lang.name }} ({{ code }})</option>
+                      {% endfor %}
+                    </select>
+                  </td>
+                  <td>
+                    <select name="country[{{ country.country_id }}][currency_code]" class="form-select">
+                      <option value="">---</option>
+                      {% for code, currency in currencies %}
+                        <option value="{{ code }}"{% if code == country.currency_code %} selected{% endif %}>{{ currency.title }} ({{ code }})</option>
+                      {% endfor %}
+                    </select>
+                  </td>
+                  <td>
+                    <select name="country[{{ country.country_id }}][extra_currencies][]" class="form-select" multiple size="4">
+                      {% for code, currency in currencies %}
+                        <option value="{{ code }}"{% if code in country.extra_currencies %} selected{% endif %}>{{ currency.title }} ({{ code }})</option>
+                      {% endfor %}
+                    </select>
+                  </td>
+                </tr>
+                {% endfor %}
+                {% if countries is empty %}
+                <tr><td colspan="6" class="text-center">{{ text_no_results }}</td></tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </form>
+        <div class="mt-3"><p class="form-text">{{ help_country_settings }}</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+{{ footer }}
