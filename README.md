@@ -1,120 +1,169 @@
-# Iskra Account / Искра Аккаунт
+# Iskra Account — расширение регистрации для OpenCart 4
 
-Modern registration form and language manager for OpenCart 4.  
-Современная форма регистрации и управление языком для OpenCart 4.
-
-[English version below / Русская версия выше]
+[English version below]
 
 ---
 
-## 🇷🇺 Русская версия
+## 🇷🇺 Русский
 
-### Описание
-Iskra Account — расширение для OpenCart 4, которое добавляет:
-- Современный дизайн формы регистрации
-- Индикатор надёжности пароля
-- Маску телефона +7 (XXX) XXX-XX-XX
-- Управление языком интерфейса
-- Исправление PHP 8.4 warning
+### Возможности
+
+- **Выбор страны** на форме регистрации — телефонный код, валюта и язык подставляются автоматически
+- **Основная валюта и язык для страны** — задаёте в админке, расширение само меняет базовую валюту магазина
+- **Дополнительные валюты** — выбираете, какие валюты показывать в шапке (EUR, USD, UAH, и т.д.)
+- **Дополнительные языки** — выбираете, какие языки показывать в шапке (EN, RU, RO, и т.д.)
+- **Автоматический пересчёт** — при выборе другой валюты цены пересчитываются по курсу
+- **Текст вместо флагов** — в шапке коды языков (RU, EN) и валют (USD, EUR) вместо картинок
+- **Единый стиль** — селекторы языка и валюты выглядят одинаково
+- **Блокировка дефолтов** — можно заблокировать выбор страны, языка и валюты под одну страну
+- **Индикатор надёжности пароля** — визуальная подсказка при регистрации
+- **Маска телефона** — автоматическое форматирование с кодом страны
+- **Сохранение языка** — язык запоминается в cookie, сессии и профиле пользователя
 
 ### Требования
-- OpenCart 4.0+
-- PHP 8.1+
-- MySQL/MariaDB
+
+- OpenCart 4.1+
+- PHP 8.4+
 
 ### Установка
 
-#### Способ 1: Ручная установка (рекомендуется)
+#### Способ 1: Через установщик OpenCart (рекомендуется)
+
+1. Скачайте последний релиз `iskra_account-2.4.0.ocmod.zip`
+2. Зайдите в админку: **Расширения → Установщик → Загрузить**
+3. Выберите скачанный ZIP-файл
+4. Перейдите: **Расширения → Модификации → Обновить**
+5. Перейдите: **Расширения → Расширения → Модули**
+6. Найдите **Iskra Account** и нажмите **Установить**
+7. После установки нажмите **Редактировать** для настройки
+
+#### Способ 2: Вручную
 
 1. Скопируйте папку `extension/iskra_account/` в корень вашего OpenCart
-2. Выполните SQL скрипт `install.sql` через phpMyAdmin
-3. Очистите кэш модификаций: **Расширения → Модификации → Обновить**
-4. Проверьте страницу регистрации
-
-#### Способ 2: Через установщик (не работает в OpenCart 4.1.0.3)
-
-⚠️ **Внимание:** В OpenCart 4.1.0.3 установщик расширений имеет баг — модули не появляются в списке. Используйте ручную установку.
+2. Зайдите в админку: **Расширения → Модификации → Обновить**
+3. **Расширения → Расширения → Модули → Iskra Account → Установить**
 
 ### Настройка
 
-После установки настройки сохраняются в таблице `oc_setting` с кодом `iskra_account`:
+После установки откройте **Расширения → Расширения → Модули → Iskra Account → Редактировать**.
 
-| Параметр | Ключ | Значение по умолчанию |
-|----------|------|----------------------|
-| Статус | `iskra_account_status` | 1 |
-| Язык по умолчанию | `iskra_account_default_language` | ru-ru |
-| Время жизни cookie | `iskra_account_cookie_lifetime` | 90 |
-| Индикатор пароля | `iskra_account_password_strength` | 1 |
-| Маска телефона | `iskra_account_phone_mask` | 1 |
-| Выбор языка | `iskra_account_language_select` | 0 |
-| Мин. длина пароля | `iskra_account_password_min_length` | 8 |
+**Основные настройки:**
+- **Статус** — включить/выключить модуль
+- **Дополнительные языки сайта** — отметьте, какие языки будут доступны в шапке
+- **Дополнительные валюты сайта** — отметьте, какие валюты будут доступны в шапке
+- **Страна по умолчанию** — страна, которая будет предвыбрана на регистрации
+- **Заблокировать дефолты** — если включено, язык, валюта и страна блокируются для изменения
+- **Выбор языка при регистрации** — добавить поле выбора языка на форму
+- **Выбор страны при регистрации** — добавить поле выбора страны
+- **Маска телефона** — автоформатирование с кодом страны
+- **Индикатор пароля** — визуальная подсказка надёжности пароля
+
+**Настройки стран:**
+Нажмите **Настроить страны**. Для каждой страны можно задать:
+- **Код телефона** (например, +373 для Молдовы)
+- **Основной язык** (например, ro-ro для Молдовы)
+- **Основная валюта** (например, MDL для Молдовы)
+- **Дополнительные валюты** (мультиселект)
+
+### Как это работает
+
+1. Вы заходите в **Настройки стран**, выбираете Молдова, ставите язык `ro-ro`, валюту `MDL`
+2. Нажимаете **Сохранить** → `config_currency` магазина автоматически становится `MDL`
+3. В **Дополнительные языки** отмечаете `en-gb`, `ru-ru`
+4. В **Дополнительные валюты** отмечаете `EUR`, `USD`
+5. На витрине: язык переключается на EN/RU/RO, валюта — на MDL/EUR/USD
+6. Если убрать все дополнительные валюты — селектор скрывается, валюта принудительно ставится MDL
 
 ### Удаление
 
-1. Выполните SQL скрипт `uninstall.sql`
+1. **Расширения → Расширения → Модули → Iskra Account → Удалить**
 2. Удалите папку `extension/iskra_account/`
-3. Очистите кэш модификаций
+3. **Расширения → Модификации → Обновить**
 
-### Поддержка
-- [GitHub Issues](https://github.com/iskra-ecommerce/iskra_account/issues)
-- [Документация OpenCart](https://docs.opencart.com)
+### История версий
+
+См. [CHANGELOG.md](CHANGELOG.md)
+
+### Лицензия
+
+GNU General Public License v3.0
 
 ---
 
-## 🇬🇧 English Version
+## 🇬🇧 English
 
-### Description
-Iskra Account is an OpenCart 4 extension that adds:
-- Modern registration form design
-- Password strength indicator
-- Phone number mask +7 (XXX) XXX-XX-XX
-- Language interface management
-- PHP 8.4 warning fix
+### Features
+
+- **Country selection** on registration form — auto-fills phone code, currency and language
+- **Default currency & language per country** — set in admin, extension auto-updates store's base currency
+- **Extra currencies** — choose which currencies to show in header (EUR, USD, UAH, etc.)
+- **Extra languages** — choose which languages to show in header (EN, RU, RO, etc.)
+- **Auto price conversion** — prices recalculate when switching currencies
+- **Text instead of flags** — language codes (RU, EN) and currency codes (USD, EUR) instead of images
+- **Unified style** — language and currency selectors look identical
+- **Lock defaults** — lock country, language and currency to one specific country
+- **Password strength indicator** — visual hint on registration form
+- **Phone mask** — auto-formatting with country code
+- **Language persistence** — language saved in cookie, session and user profile
 
 ### Requirements
-- OpenCart 4.0+
-- PHP 8.1+
-- MySQL/MariaDB
+
+- OpenCart 4.1+
+- PHP 8.4+
 
 ### Installation
 
-#### Method 1: Manual Installation (Recommended)
+#### Method 1: OpenCart Installer (recommended)
 
-1. Copy `extension/iskra_account/` folder to your OpenCart root
-2. Run SQL script `install.sql` via phpMyAdmin
-3. Clear modification cache: **Extensions → Modifications → Refresh**
-4. Check registration page
+1. Download latest release `iskra_account-2.4.0.ocmod.zip`
+2. Admin: **Extensions → Installer → Upload**
+3. Select the ZIP file
+4. **Extensions → Modifications → Refresh**
+5. **Extensions → Extensions → Modules**
+6. Find **Iskra Account**, click **Install**
+7. Click **Edit** to configure
 
-#### Method 2: Via Installer (Not Working in OpenCart 4.1.0.3)
+#### Method 2: Manual
 
-⚠️ **Warning:** OpenCart 4.1.0.3 has a bug — modules don't appear in the list. Use manual installation.
+1. Copy `extension/iskra_account/` to your OpenCart root
+2. Admin: **Extensions → Modifications → Refresh**
+3. **Extensions → Extensions → Modules → Iskra Account → Install**
 
 ### Configuration
 
-After installation, settings are stored in `oc_setting` table with code `iskra_account`:
+Admin: **Extensions → Extensions → Modules → Iskra Account → Edit**.
 
-| Parameter | Key | Default Value |
-|-----------|-----|---------------|
-| Status | `iskra_account_status` | 1 |
-| Default Language | `iskra_account_default_language` | ru-ru |
-| Cookie Lifetime | `iskra_account_cookie_lifetime` | 90 |
-| Password Strength | `iskra_account_password_strength` | 1 |
-| Phone Mask | `iskra_account_phone_mask` | 1 |
-| Language Select | `iskra_account_language_select` | 0 |
-| Min Password Length | `iskra_account_password_min_length` | 8 |
+**Main settings:**
+- **Status** — enable/disable module
+- **Extra Site Languages** — check languages to show in header
+- **Extra Site Currencies** — check currencies to show in header
+- **Default Country** — country pre-selected on registration
+- **Lock Defaults** — when enabled, country/language/currency are locked
+- **Language Selection on Registration** — show language picker
+- **Country Selection on Registration** — show country picker
+- **Phone Mask** — auto-format with country code
+- **Password Strength** — visual indicator
 
-### Uninstallation
+**Country settings:**
+Click **Configure Countries**. For each country:
+- **Phone Code** (e.g., +373 for Moldova)
+- **Default Language** (e.g., ro-ro for Moldova)
+- **Default Currency** (e.g., MDL for Moldova)
+- **Extra Currencies** (multi-select)
 
-1. Run SQL script `uninstall.sql`
-2. Delete `extension/iskra_account/` folder
-3. Clear modification cache
+### How it works
 
-### Support
-- [GitHub Issues](https://github.com/iskra-ecommerce/iskra_account/issues)
-- [OpenCart Documentation](https://docs.opencart.com)
+1. Go to **Country Settings**, set Moldova with language `ro-ro`, currency `MDL`
+2. Click **Save** → store's `config_currency` auto-changes to `MDL`
+3. In **Extra Languages** check `en-gb`, `ru-ru`
+4. In **Extra Currencies** check `EUR`, `USD`
+5. Frontend shows language switcher with EN/RU/RO, currency with MDL/EUR/USD
+6. Remove all extra currencies → selector hides, currency forced to MDL
 
----
+### Changelog
 
-## License / Лицензия
+See [CHANGELOG.md](CHANGELOG.md)
 
-GNU General Public License v3.0 — [LICENSE](LICENSE)
+### License
+
+GNU General Public License v3.0
