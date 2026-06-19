@@ -1,0 +1,12 @@
+/* Iskra Account — Registration Form Styles */
+.iskra-password-strength { margin-top: 8px; }
+.iskra-password-strength__bar { height: 4px; background: #e9ecef; border-radius: 2px; overflow: hidden; margin-bottom: 4px; }
+.iskra-password-strength__fill { height: 100%; transition: width 0.3s ease, background-color 0.3s ease; border-radius: 2px; }
+.iskra-password-strength--weak .iskra-password-strength__fill { width: 25%; background-color: #dc3545; }
+.iskra-password-strength--fair .iskra-password-strength__fill { width: 50%; background-color: #fd7e14; }
+.iskra-password-strength--good .iskra-password-strength__fill { width: 75%; background-color: #ffc107; }
+.iskra-password-strength--strong .iskra-password-strength__fill { width: 100%; background-color: #198754; }
+.iskra-password-strength__label { font-size: 0.75rem; color: #6c757d; }
+.iskra-input--phone { letter-spacing: 0.5px; }
+#input-language { max-width: 300px; }
+.iskra-lang-code { display: inline-block; font-weight: 600; font-size: 0.85rem; letter-spacing: 0.5px; color: inherit; vertical-align: middle; }

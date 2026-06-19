@@ -1,0 +1,8 @@
+{
+  "name": "Iskra Account",
+  "code": "iskra_account",
+  "version": "2.4.0",
+  "author": "Iskra Team",
+  "link": "https://github.com/iskra-ecommerce/iskra_account",
+  "type": "module"
+}
