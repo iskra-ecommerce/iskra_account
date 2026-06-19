@@ -1,0 +1,18 @@
+{
+    "name": "iskra-ecommerce/account",
+    "description": "Modern Registration & Language Manager for OpenCart 4",
+    "type": "opencart-extension",
+    "keywords": ["opencart", "opencart4", "extension", "account", "registration", "language", "cyrillic", "russian", "ukrainian", "kazakh", "belarusian", "romanian"],
+    "homepage": "https://github.com/iskra-ecommerce/iskra_account",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Iskra Team",
+            "email": "1s83.gnsh@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.1"
+    },
+    "minimum-stability": "stable"
+}
