@@ -142,7 +142,7 @@ class IskraAccount extends \Opencart\System\Engine\Controller {
 		if ($default_country_id) {
 			$q = $this->db->query("SELECT `currency_code` FROM `" . DB_PREFIX . "iskra_country_setting` WHERE `country_id` = '" . $default_country_id . "' AND `currency_code` != ''");
 			if ($q->num_rows) {
-				$this->model_setting_setting->editSetting('config', ['config_currency' => $q->row['currency_code']]);
+				$this->model_setting_setting->editValue('config', 'config_currency', $q->row['currency_code']);
 			}
 		}
 
@@ -276,7 +276,7 @@ class IskraAccount extends \Opencart\System\Engine\Controller {
 
 				if ($currency_code) {
 					$this->load->model('setting/setting');
-					$this->model_setting_setting->editSetting('config', ['config_currency' => $currency_code]);
+					$this->model_setting_setting->editValue('config', 'config_currency', $currency_code);
 				}
 			}
 
